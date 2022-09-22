@@ -1,8 +1,36 @@
 require 'dotenv'
 # require 'uri'
-# require 'net/http'
+require 'net/http'
 Dotenv.load('.env')
 
+
+# 1ere etape: creer un array avec des noms de recettes:
+recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'Crumble Pomme Mangue', 'bouillabaisse']
+
+# 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
+api_id = ENV["EDEMAM_RECIPES_API_ID"]
+api_key = ENV['EDEMAM_RECIPES_API_KEY']
+
+uri_start = 'https://api.edamam.com/api/recipes/v2?type=public&q='
+uri_end = "&app_id=" + api_id + "&app_key=" + api_key
+
+recipes_names.each do |recipe|
+  recipe = URI.encode(recipe)
+  full_string = uri_start + recipe + uri_end
+  uri = URI(full_string)
+  puts uri # SHOULD BE A COMMENT
+
+
+  res = Net::HTTP.get_response(uri)
+  puts res.body if res.is_a?(Net::HTTPSuccess)
+
+end # fin du "recipes_names.each"
+
+
+
+# 3eme etape: faire un Recipe.create() sur le premier resultat de chaque fetch.
+
+################################################
 
 =begin
 Recipe.destroy_all
@@ -18,56 +46,7 @@ comments = Comment.create([
 ])
 =end
 
-
-
-
-=begin
-    PROCESS :
-1ere etape: creer un array avec des noms de recettes:
-2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
-3eme etape: faire un Recipe.create() sur le premier resultat de chaque fetch.
-=end
-
-# 1ere etape: creer un array avec des noms de recettes:
-recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'Crumble Pomme Mangue', 'bouillabaisse']
-
-# 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
-api_id = ENV["EDEMAM_RECIPES_API_ID"]
-api_key = ENV['EDEMAM_RECIPES_API_KEY']
-
-uri_start = 'https://api.edamam.com/api/recipes/v2?type=public&q='
-uri_end = "&app_id=" + api_id + "&app_key=" + api_key
-
-recipes_names.each do |recipe|
-  recipe = URI.encode(recipe)
-  full_string = uri_start + recipe + uri_end
-
-  puts full_string # SHOULD BE A COMMENT
-
-
-
-
-=begin
-  Net::HTTP.start(uri.host, uri.port) do |http|
-    request = Net::HTTP::Get.new uri
-  
-    response = http.request request # Net::HTTPResponse object
-    if res.code == 200 do
-  
-    end
-
-
-  end
-=end
-
-
-end # fin du "recipes_names.each"
-
-
-
-
-
-
+################################################
 
 # RECETTES HARDCODEES :
 # recipes = Recipe.create!([
