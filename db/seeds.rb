@@ -1,11 +1,10 @@
 require 'dotenv'
 # require 'uri'
 require 'net/http'
-Dotenv.load('.env')
-
+require 'json'
 
 # 1ere etape: creer un array avec des noms de recettes:
-recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'Crumble Pomme Mangue', 'bouillabaisse']
+recipes_names = ['carbonara']#, 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'Crumble Pomme Mangue', 'bouillabaisse']
 
 # 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
 api_id = ENV["EDEMAM_RECIPES_API_ID"]
@@ -18,17 +17,54 @@ recipes_names.each do |recipe|
   recipe = URI.encode(recipe)
   full_string = uri_start + recipe + uri_end
   uri = URI(full_string)
-  puts uri # SHOULD BE A COMMENT
+
+  response = Net::HTTP.get_response(uri)
+  # puts '=================================================================='
+  # puts response.body if response.is_a?(Net::HTTPSuccess) # SHOULD BE A COMMENT
+  # puts '=================================================================='
+  results = JSON.parse(response.body)["hits"]
+
+  results.each do |result|
+    puts result['recipe']['label']
+    
+    # rec = i['recipe']
+    # puts '=================================================================='
+    # puts rec
+    # puts '=================================================================='
+
+    # rec.each do |i|
+    #   label = i.label
+    #   puts '=================================================================='
+    #   puts label
+    #   puts '=================================================================='
+    # end
+  
+  end
 
 
-  res = Net::HTTP.get_response(uri)
-  puts res.body if res.is_a?(Net::HTTPSuccess)
+
+  # result.each do |s|
+  #   Story.create(title: s["title"], author: s["author"], content:   s["content"], url: s["url"])
+  # end
+
+
+# 3eme etape: faire un Recipe.create() sur le premier resultat de chaque fetch.
+  # recipes = Recipe.create(
+  #   title: ,
+  #   description: '',
+  #   carbohydrates: '',
+  #   calories: '',
+  #   image_url: ''
+  # )
+
+  # puts '=================================================================='
+  # puts 'une recette a été créée'
+  # puts '=================================================================='
 
 end # fin du "recipes_names.each"
 
 
 
-# 3eme etape: faire un Recipe.create() sur le premier resultat de chaque fetch.
 
 ################################################
 
@@ -57,4 +93,3 @@ comments = Comment.create([
 #     { "title": "Risotto aux champignons
 #     ", "description": "Séparer les champignons en deux (préférer des cèpes) : une partie servira à élaborer le bouillon et cuira avec le riz. L'autre partie sera poêlé au dernier moment pour la présentation et mettre en avant le champignon tout en conservant une texture ferme. Emincer un petit peu d'ail, d'échalote et de persil séparément et réserver.", "carbohydrates": rand(20..60), "calories": rand(1..13), image_url: 'https://images.pexels.com/photos/5638527/pexels-photo-5638527.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'}, 
 #     ]);
-
