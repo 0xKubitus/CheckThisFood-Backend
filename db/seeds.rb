@@ -1,15 +1,24 @@
 require 'dotenv'
-# require 'uri'
 require 'net/http'
 require 'json'
 
+Comment.delete_all
+Recipe.delete_all
+User.delete_all
+
+Comment.destroy_all
+Recipe.destroy_all
+User.destroy_all
+
+# =begin
+################################################################
+# RECUPERER DES RECETTES SUR API EDAMAM POUR PEUPLER NOTRE BDD 
 # 1ere etape: creer un array avec des noms de recettes:
-recipes_names = ['carbonara']#, 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'Crumble Pomme Mangue', 'bouillabaisse']
+recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'raclette', 'Crumble Pomme Mangue', 'bouillabaisse']
 
 # 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
 api_id = ENV["EDEMAM_RECIPES_API_ID"]
 api_key = ENV['EDEMAM_RECIPES_API_KEY']
-
 uri_start = 'https://api.edamam.com/api/recipes/v2?type=public&q='
 uri_end = "&app_id=" + api_id + "&app_key=" + api_key
 
@@ -25,66 +34,73 @@ recipes_names.each do |recipe|
   results = JSON.parse(response.body)["hits"]
 
   results.each do |result|
-    puts result['recipe']['label']
-    
-    # rec = i['recipe']
-    # puts '=================================================================='
-    # puts rec
-    # puts '=================================================================='
-
-    # rec.each do |i|
-    #   label = i.label
-    #   puts '=================================================================='
-    #   puts label
-    #   puts '=================================================================='
+  # Pour plus facilement lire les resultats:
+    # result['recipe'].each do |j|
+    #   puts j
     # end
+
+    label = result['recipe']['label']
+    # puts label # SHOULD BE A COMMENT
+    thumbnail = result['recipe']['images']['THUMBNAIL']['url']
+    ingredientLines = result['recipe']['ingredientLines']
+    carbs = result['recipe']['totalNutrients']['CHOCDF']['quantity']
+    kcal = result['recipe']['totalNutrients']['ENERC_KCAL']['quantity']
+
+    mealType = result['recipe']['mealType'] # /!\ajouter un enum. "categories" à la table recipes pour trier par "diner/lunch/etc"
+  
+# 3eme etape: faire un Recipe.create() sur le premier resultat de chaque fetch.
+  recipes = Recipe.create(
+    title: label,
+    description: ingredientLines,
+    carbohydrates: carbs,
+    calories: kcal,
+    image_url: thumbnail
+  )
+
+  puts '=================================================================='
+  puts 'une recette a été créée'
+  puts '=================================================================='
   
   end
-
-
-
-  # result.each do |s|
-  #   Story.create(title: s["title"], author: s["author"], content:   s["content"], url: s["url"])
-  # end
-
-
-# 3eme etape: faire un Recipe.create() sur le premier resultat de chaque fetch.
-  # recipes = Recipe.create(
-  #   title: ,
-  #   description: '',
-  #   carbohydrates: '',
-  #   calories: '',
-  #   image_url: ''
-  # )
-
-  # puts '=================================================================='
-  # puts 'une recette a été créée'
-  # puts '=================================================================='
-
 end # fin du "recipes_names.each"
 
+################################################################
+# creation de fake utilisateurs :
+30.times do 
+  |i|
+  User.create(email:"test#{i}@test.com", encrypted_password:'Azerty!23', created_at: Time.now, updated_at: Time.now)
+  puts '=================================================================='
+  puts 'un user a été créé'
+  puts '=================================================================='
+end
+
+# creation de fake commentaires :
+30.times do 
+  |i|
+  Comment.create!(content:"commentaire#{i}", user_id:rand(1..20), recipe_id:rand(1..20), created_at: Time.now, updated_at: Time.now)
+  puts '=================================================================='
+  puts 'un comment a été créé'
+  puts '=================================================================='
+end
+
+
+# =end
+
+
+
+
+
+
+
+
+
+
 
 
 
 ################################################
 
-=begin
-Recipe.destroy_all
-
-comments = Comment.create([
-  {recipe: Recipe.first,
-  content: 'super recette'},
-
-  {
-      recipe: Recipe.first,
-      content: "j'ai pas aimé"
-  }
-])
-=end
-
-################################################
-
-# RECETTES HARDCODEES :
+# ANCIENNES RECETTES HARDCODEES A LA MAIN :
 # recipes = Recipe.create!([
 #     { title: "Lasagnes à la bolognaise", description: "Faire revenir gousses hachées d'ail et les oignons émincés dans un peu d'huile d'olive.", carbohydrates: rand(20..60), calories: rand(1..13), image_url: 'https://images.pexels.com/photos/4079520/pexels-photo-4079520.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'},
 #     { "title": "Chili con carne", "description": "Mélanger le chili, le cumin, le concentré de tomates, et incorporer le tout au boeuf. Ajouter les haricots, le bouillon, du sel et du poivre", "carbohydrates": rand(20..60), "calories": rand(1..13), image_url: 'https://images.pexels.com/photos/5737377/pexels-photo-5737377.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'},  
