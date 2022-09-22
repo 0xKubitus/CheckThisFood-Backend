@@ -1,21 +1,32 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+require 'uri'
+require 'net/http'
 
 
 Recipe.destroy_all
 
 =begin
-
-1ere etape: creer un array avec des noms de recettes;
+    PROCESS :
+1ere etape: creer un array avec des noms de recettes:
 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
 3eme etape: faire un Recipe.create() sur le premier resultat de chaque fetch.
-
 =end
+
+# 1ere etape: creer un array avec des noms de recettes:
+recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'Crumble Pomme Mangue', 'bouillabaisse']
+
+# 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
+uri_start = URI('https://api.edamam.com/api/recipes/v2?type=public&q=')
+uri_end = "&app_id=" + EDEMAM_RECIPES_API_ID + "&app_key=" + EDEMAM_RECIPES_API_KEY
+
+Net::HTTP.start(uri.host, uri.port) do |http|
+  request = Net::HTTP::Get.new uri
+
+  response = http.request request # Net::HTTPResponse object
+  if res.code == 200 do
+
+  end
+end
+
 
 
 
