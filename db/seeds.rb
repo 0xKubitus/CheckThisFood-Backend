@@ -29,22 +29,23 @@ comments = Comment.create([
 =end
 
 # 1ere etape: creer un array avec des noms de recettes:
-# recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'Crumble Pomme Mangue', 'bouillabaisse']
+recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'Crumble Pomme Mangue', 'bouillabaisse']
 
 # 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
 api_id = ENV["EDEMAM_RECIPES_API_ID"]
-# api_id = 'ta mere'
-puts api_id
-# api_key = ENV['EDEMAM_RECIPES_API_KEY']
+api_key = ENV['EDEMAM_RECIPES_API_KEY']
 
-# uri_start = URI('https://api.edamam.com/api/recipes/v2?type=public&q=')
-# uri_end = "&app_id=" + api_id + "&app_key=" + api_key
+uri_start = 'https://api.edamam.com/api/recipes/v2?type=public&q='
+uri_end = "&app_id=" + api_id + "&app_key=" + api_key
 
-# recipes_names.each do |recipe|
-#   full_uri = uri_start + recipe + uri_end
+recipes_names.each do |recipe|
+  recipe = URI.encode(recipe)
+  full_string = uri_start + recipe + uri_end
+
+  puts full_string # SHOULD BE A COMMENT
 
 
-#   puts full_uri # SHOULD BE A COMMENT
+
 
 =begin
   Net::HTTP.start(uri.host, uri.port) do |http|
@@ -60,7 +61,7 @@ puts api_id
 =end
 
 
-# end
+end # fin du "recipes_names.each"
 
 
 
