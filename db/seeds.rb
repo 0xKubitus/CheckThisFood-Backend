@@ -1,8 +1,25 @@
-require 'uri'
-require 'net/http'
+require 'dotenv'
+# require 'uri'
+# require 'net/http'
+Dotenv.load('.env')
 
 
+=begin
 Recipe.destroy_all
+
+comments = Comment.create([
+  {recipe: Recipe.first,
+  content: 'super recette'},
+
+  {
+      recipe: Recipe.first,
+      content: "j'ai pas aimé"
+  }
+])
+=end
+
+
+
 
 =begin
     PROCESS :
@@ -12,20 +29,40 @@ Recipe.destroy_all
 =end
 
 # 1ere etape: creer un array avec des noms de recettes:
-recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'Crumble Pomme Mangue', 'bouillabaisse']
+# recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'Crumble Pomme Mangue', 'bouillabaisse']
 
 # 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
-uri_start = URI('https://api.edamam.com/api/recipes/v2?type=public&q=')
-uri_end = "&app_id=" + EDEMAM_RECIPES_API_ID + "&app_key=" + EDEMAM_RECIPES_API_KEY
+api_id = ENV["EDEMAM_RECIPES_API_ID"]
+# api_id = 'ta mere'
+puts api_id
+# api_key = ENV['EDEMAM_RECIPES_API_KEY']
 
-Net::HTTP.start(uri.host, uri.port) do |http|
-  request = Net::HTTP::Get.new uri
+# uri_start = URI('https://api.edamam.com/api/recipes/v2?type=public&q=')
+# uri_end = "&app_id=" + api_id + "&app_key=" + api_key
 
-  response = http.request request # Net::HTTPResponse object
-  if res.code == 200 do
+# recipes_names.each do |recipe|
+#   full_uri = uri_start + recipe + uri_end
+
+
+#   puts full_uri # SHOULD BE A COMMENT
+
+=begin
+  Net::HTTP.start(uri.host, uri.port) do |http|
+    request = Net::HTTP::Get.new uri
+  
+    response = http.request request # Net::HTTPResponse object
+    if res.code == 200 do
+  
+    end
+
 
   end
-end
+=end
+
+
+# end
+
+
 
 
 
@@ -41,12 +78,3 @@ end
 #     ", "description": "Séparer les champignons en deux (préférer des cèpes) : une partie servira à élaborer le bouillon et cuira avec le riz. L'autre partie sera poêlé au dernier moment pour la présentation et mettre en avant le champignon tout en conservant une texture ferme. Emincer un petit peu d'ail, d'échalote et de persil séparément et réserver.", "carbohydrates": rand(20..60), "calories": rand(1..13), image_url: 'https://images.pexels.com/photos/5638527/pexels-photo-5638527.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'}, 
 #     ]);
 
-comments = Comment.create([
-        {recipe: Recipe.first,
-        content: 'super recette'},
-
-        {
-            recipe: Recipe.first,
-            content: "j'ai pas aimé"
-        }
-    ])
