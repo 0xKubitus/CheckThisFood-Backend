@@ -39,6 +39,13 @@ class RecipesController < ApplicationController
     @recipe.destroy
   end
 
+
+  def trendy
+    @recipes = Recipe.where(is_trendy?: true)
+
+    render json: RecipeSerializer.new(@recipes, options).serializable_hash.to_json
+  end
+
   def breakfasts
     @recipes = Recipe.where(categories: "[\"breakfast\"]")
 
