@@ -16,7 +16,7 @@ class RecipesController < ApplicationController
 
   # POST /recipes
   def create
-    @recipe = RecipeSerializer.new(recipe_params).serializable_hash.to_json
+    @recipe = Recipe.new(recipe_params)
 
     if @recipe.save
       render json: @recipe, status: :created, location: @recipe
@@ -53,7 +53,7 @@ class RecipesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def recipe_params
-      params.require(:recipe).permit(:title, :description, :carbohydrates, :calories, :user_id, :image_url)
+      params.require(:recipe).permit(:title, :description, :carbohydrates, :calories, :user_id, :image_url, :categories)
     end
 
     def options
