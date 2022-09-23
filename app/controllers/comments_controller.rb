@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show update destroy ]
+  before_create :authenticate_user!
 
   # GET /comments
   def index
@@ -17,6 +18,7 @@ class CommentsController < ApplicationController
   # POST /comments
   def create
     @comment = recipe.comments.new(comment_params)
+    @comment.user_id = params[:user_id]
 
         if @comment.save
           render json: serializer(@comment)
