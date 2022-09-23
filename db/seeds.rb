@@ -14,7 +14,7 @@ User.destroy_all
 ################################################################
 # RECUPERER DES RECETTES SUR API EDAMAM POUR PEUPLER NOTRE BDD 
 # 1ere etape: creer un array avec des noms de recettes:
-recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'raclette', 'Crumble Pomme Mangue', 'bouillabaisse']
+recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'raclette', 'Crumble Pomme Mangue', 'bouillabaisse', 'Bacon, Egg, and Toast Cups', 'cereal', 'yogurt']
 
 # 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
 api_id = ENV["EDEMAM_RECIPES_API_ID"]
@@ -45,13 +45,13 @@ recipes_names.each do |recipe|
     ingredientLines = result['recipe']['ingredientLines']
     carbs = result['recipe']['totalNutrients']['CHOCDF']['quantity']
     kcal = result['recipe']['totalNutrients']['ENERC_KCAL']['quantity']
-
-    mealType = result['recipe']['mealType'] # /!\ajouter un enum. "categories" à la table recipes pour trier par "diner/lunch/etc"
+    mealType = result['recipe']['mealType'] 
   
 # 3eme etape: faire un Recipe.create() sur le premier resultat de chaque fetch.
   recipes = Recipe.create(
     title: label,
     description: ingredientLines,
+    categories: mealType,
     carbohydrates: carbs,
     calories: kcal,
     image_url: thumbnail
