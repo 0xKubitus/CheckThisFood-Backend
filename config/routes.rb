@@ -9,6 +9,8 @@ Rails.application.routes.draw do
              }
   get '/member-data', to: 'members#show'
   get '/breakfast', to: 'recipes#breakfasts'
+  get '/meals', to: 'recipes#meals'
+  get '/snacks', to: 'recipes#snacks'
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # Defines the root path route ("/")
