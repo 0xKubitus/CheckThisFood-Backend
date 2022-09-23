@@ -2,6 +2,8 @@ require 'dotenv'
 require 'net/http'
 require 'json'
 
+=begin
+
 Comment.delete_all
 Recipe.delete_all
 User.delete_all
@@ -83,8 +85,17 @@ end
   puts '=================================================================='
 end
 
+=end
 
-# =end
+20.times do 
+  |i|
+  x = rand(1..Recipe.all.count)
+  recipe = Recipe.where(id: x)
+  recipe.update(is_trendy?: true) 
+  puts '=================================================================='
+  puts 'une recette est devenue trendy!'
+  puts '=================================================================='
+end
 
 
 

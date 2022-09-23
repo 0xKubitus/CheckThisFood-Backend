@@ -65,6 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_144601) do
     t.integer "carbohydrates"
     t.integer "calories"
     t.integer "user_id"
+    t.boolean "is_trendy?", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image_url"
