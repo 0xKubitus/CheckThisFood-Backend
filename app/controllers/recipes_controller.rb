@@ -39,6 +39,12 @@ class RecipesController < ApplicationController
     @recipe.destroy
   end
 
+  def breakfasts
+    @recipes = Recipe.where(categories: "[\"breakfast\"]")
+
+    render json: RecipeSerializer.new(@recipes, options).serializable_hash.to_json
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_recipe

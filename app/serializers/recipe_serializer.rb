@@ -1,6 +1,6 @@
 class RecipeSerializer
   include JSONAPI::Serializer
-  attributes :title, :image_url, :description, :carbohydrates, :calories
+  attributes :title, :image_url, :description, :categories, :carbohydrates, :calories
 
   has_many :comments
 

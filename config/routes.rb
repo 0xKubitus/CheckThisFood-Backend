@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
   resources :recipes
-
-  resources :recipes 
   resources :comments
 
   devise_for :users,
@@ -10,6 +8,8 @@ Rails.application.routes.draw do
                registrations: 'users/registrations'
              }
   get '/member-data', to: 'members#show'
+  get '/breakfast', to: 'recipes#breakfasts'
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # Defines the root path route ("/")
   # root "articles#index"
