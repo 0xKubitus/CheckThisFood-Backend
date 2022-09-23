@@ -7,6 +7,7 @@ class CreateRecipes < ActiveRecord::Migration[7.0]
       t.integer :carbohydrates
       t.integer :calories
       t.integer :user_id
+      t.boolean :is_trendy?, default: false
 
       t.timestamps
     end

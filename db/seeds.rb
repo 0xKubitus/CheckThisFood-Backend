@@ -2,6 +2,7 @@ require 'dotenv'
 require 'net/http'
 require 'json'
 
+
 Comment.delete_all
 Recipe.delete_all
 User.delete_all
@@ -10,7 +11,7 @@ Comment.destroy_all
 Recipe.destroy_all
 User.destroy_all
 
-# =begin
+
 ################################################################
 # RECUPERER DES RECETTES SUR API EDAMAM POUR PEUPLER NOTRE BDD 
 # 1ere etape: creer un array avec des noms de recettes:
@@ -84,7 +85,16 @@ end
 end
 
 
-# =end
+
+20.times do 
+  |i|
+  x = rand(1..Recipe.all.count)
+  recipe = Recipe.where(id: x)
+  recipe.update(is_trendy?: true) 
+  puts '=================================================================='
+  puts 'une recette est devenue trendy!'
+  puts '=================================================================='
+end
 
 
 
