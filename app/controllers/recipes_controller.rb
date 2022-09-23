@@ -45,6 +45,18 @@ class RecipesController < ApplicationController
     render json: RecipeSerializer.new(@recipes, options).serializable_hash.to_json
   end
 
+  def meals
+    @recipes = Recipe.where(categories: "[\"lunch/dinner\"]").or(Recipe.where(categories: "[\"brunch\"]"))
+
+    render json: RecipeSerializer.new(@recipes, options).serializable_hash.to_json
+  end
+
+  def snacks
+    @recipes = Recipe.where(categories: "[\"snack\"]").or(Recipe.where(categories: "[\"teatime\"]"))
+
+    render json: RecipeSerializer.new(@recipes, options).serializable_hash.to_json
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_recipe
