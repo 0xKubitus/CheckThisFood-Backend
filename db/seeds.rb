@@ -41,7 +41,7 @@ recipes_names.each do |recipe|
 
     label = result['recipe']['label']
     # puts label # SHOULD BE A COMMENT
-    thumbnail = result['recipe']['images']['THUMBNAIL']['url']
+    thumbnail = result['recipe']['image']
     ingredientLines = result['recipe']['ingredientLines']
     carbs = result['recipe']['totalNutrients']['CHOCDF']['quantity']
     kcal = result['recipe']['totalNutrients']['ENERC_KCAL']['quantity']
