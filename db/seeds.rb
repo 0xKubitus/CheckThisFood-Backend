@@ -14,7 +14,7 @@ User.destroy_all
 ################################################################
 # RECUPERER DES RECETTES SUR API EDAMAM POUR PEUPLER NOTRE BDD 
 # 1ere etape: creer un array avec des noms de recettes:
-recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'raclette', 'Crumble Pomme Mangue', 'bouillabaisse']
+recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'raclette', 'Crumble Pomme Mangue', 'bouillabaisse', 'Bacon, Egg, and Toast Cups', 'cereal', 'yogurt']
 
 # 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
 api_id = ENV["EDEMAM_RECIPES_API_ID"]
