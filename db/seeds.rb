@@ -2,7 +2,6 @@ require 'dotenv'
 require 'net/http'
 require 'json'
 
-=begin
 
 Comment.delete_all
 Recipe.delete_all
@@ -12,7 +11,7 @@ Comment.destroy_all
 Recipe.destroy_all
 User.destroy_all
 
-# =begin
+
 ################################################################
 # RECUPERER DES RECETTES SUR API EDAMAM POUR PEUPLER NOTRE BDD 
 # 1ere etape: creer un array avec des noms de recettes:
@@ -85,7 +84,7 @@ end
   puts '=================================================================='
 end
 
-=end
+
 
 20.times do 
   |i|
