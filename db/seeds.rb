@@ -56,34 +56,32 @@ recipes_names.each do |recipe|
     carbohydrates: carbs,
     calories: kcal,
     image_url: thumbnail
-  )
-
-  puts '=================================================================='
-  puts 'une recette a été créée'
-  puts '=================================================================='
-  
+  )  
   end
 end # fin du "recipes_names.each"
+puts '=================================================================='
+puts 'Recettes créées'
+puts '=================================================================='
 
 ################################################################
 # creation de fake utilisateurs :
 30.times do 
   |i|
   User.create(email:"test#{i}@test.com", encrypted_password:'Azerty!23', created_at: Time.now, updated_at: Time.now)
-  puts '=================================================================='
-  puts 'un user a été créé'
-  puts '=================================================================='
 end
+puts '=================================================================='
+puts 'Users créés'
+puts '=================================================================='
+
 
 # creation de fake commentaires :
 30.times do 
   |i|
   Comment.create!(content:"commentaire#{i}", user_id:rand(1..20), recipe_id:rand(1..20), created_at: Time.now, updated_at: Time.now)
-  puts '=================================================================='
-  puts 'un comment a été créé'
-  puts '=================================================================='
 end
-
+puts '=================================================================='
+puts 'Commentaires créés'
+puts '=================================================================='
 
 
 20.times do 
@@ -91,11 +89,10 @@ end
   x = rand(1..Recipe.all.count)
   recipe = Recipe.where(id: x)
   recipe.update(is_trendy?: true) 
-  puts '=================================================================='
-  puts 'une recette est devenue trendy!'
-  puts '=================================================================='
 end
-
+puts '=================================================================='
+puts 'Recettes trendy ajoutées!'
+puts '=================================================================='
 
 
 
