@@ -3,10 +3,6 @@ require 'net/http'
 require 'json'
 
 
-Comment.delete_all
-Recipe.delete_all
-User.delete_all
-
 Comment.destroy_all
 Recipe.destroy_all
 User.destroy_all
@@ -77,7 +73,7 @@ puts '=================================================================='
 # creation de fake commentaires :
 30.times do 
   |i|
-  Comment.create!(content:"commentaire#{i}", user_id:rand(1..20), recipe_id:rand(1..20), created_at: Time.now, updated_at: Time.now)
+  Comment.create!(content:"commentaire#{i}", user_id:rand(1..20), recipe_id:Recipe.all.sample.id, created_at: Time.now, updated_at: Time.now)
 end
 puts '=================================================================='
 puts 'Commentaires créés'
@@ -87,7 +83,7 @@ puts '=================================================================='
 20.times do 
   |i|
   x = rand(1..Recipe.all.count)
-  recipe = Recipe.where(id: x)
+  recipe = Recipe.where(recipe_id: x)
   recipe.update(is_trendy?: true) 
 end
 puts '=================================================================='
