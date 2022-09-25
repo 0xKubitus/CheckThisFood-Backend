@@ -82,8 +82,8 @@ puts '=================================================================='
 
 20.times do 
   |i|
-  x = rand(1..Recipe.all.count)
-  recipe = Recipe.where(recipe_id: x)
+  x = rand(1..Recipe.count)
+  recipe = Recipe.where(id: x)
   recipe.update(is_trendy?: true) 
 end
 puts '=================================================================='
