@@ -3,10 +3,6 @@ require 'net/http'
 require 'json'
 
 
-Comment.delete_all
-Recipe.delete_all
-User.delete_all
-
 Comment.destroy_all
 Recipe.destroy_all
 User.destroy_all
@@ -16,6 +12,7 @@ User.destroy_all
 # RECUPERER DES RECETTES SUR API EDAMAM POUR PEUPLER NOTRE BDD 
 # 1ere etape: creer un array avec des noms de recettes:
 recipes_names = ['carbonara', 'poulet roti', 'Nutella Brownies', 'Chicken Ceasar Salad', 'raclette', 'Crumble Pomme Mangue', 'bouillabaisse', 'Bacon, Egg, and Toast Cups', 'cereal', 'yogurt']
+trendy_recipes = ['Nutella Brownies',]
 
 # 2eme etape: pour chaque nom de recette dans l'array, faire un fetch sur l'API Recipe d'Edamam ;
 api_id = ENV["EDEMAM_RECIPES_API_ID"]
@@ -77,7 +74,7 @@ puts '=================================================================='
 # creation de fake commentaires :
 30.times do 
   |i|
-  Comment.create!(content:"commentaire#{i}", user_id:rand(1..20), recipe_id:rand(1..20), created_at: Time.now, updated_at: Time.now)
+  Comment.create!(content:"commentaire#{i}", user_id:rand(1..20), recipe_id:Recipe.all.sample.id, created_at: Time.now, updated_at: Time.now)
 end
 puts '=================================================================='
 puts 'Commentaires créés'
@@ -86,9 +83,8 @@ puts '=================================================================='
 
 20.times do 
   |i|
-  x = rand(1..Recipe.all.count)
-  recipe = Recipe.where(id: x)
-  recipe.update(is_trendy?: true) 
+  recipe = Recipe.where(id: Recipe.all.sample.id)
+  recipe.update!(is_trendy?: true) 
 end
 puts '=================================================================='
 puts 'Recettes trendy ajoutées!'
