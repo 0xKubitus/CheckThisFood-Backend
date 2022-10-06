@@ -15,8 +15,10 @@ EDITOR=nano rails credentials:edit
 
 
 => Add at the bottom of the file:
+```
 devise:
   jwt_secret_key: [copied key] // ⚠ there are 2 spaces at the beginning of this line
+```
 
 
 
